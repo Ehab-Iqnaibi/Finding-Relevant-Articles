@@ -1,11 +1,13 @@
 # irrelevant_words function
 def iwords(text):
-    irrelevant_words = {".", "," , "\n", " the ", " a ", " and "," is ", " was ", " he ", " at ", " to ", " for ", " can ",
-                        " this ", " we ", " you ", " or ", " i ", " an ", " but ", " so ", " yes ", " no "}
+    irrelevant_words = [".", "," , "\n", " the ", " a ", " and "," is ", " was ", " he ", " at ", " to ", " for ", " can ",
+                        " this ", " we ", " you ", " or ", " i ", " an ", " but ", " so ", " yes ", " no "]
     for iw in irrelevant_words:
-        fread= text.replace(iw, " ")
+        text = text.replace(iw, " ")
     print(500+i)
-    print(fread)
+    print('-----------')
+    print(text)
+
 
     return(fread)
 # The number of repetitions of the word in the article
@@ -19,7 +21,7 @@ def histogram(text):
         else:
             word_histogram[word] = word_histogram[word] + 1
 
-    word_histogram.pop("")
+    # word_histogram.pop("")
     print(600+i)            #extra
     print(word_histogram)
     return dict(list(sorted(word_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:6])
@@ -44,7 +46,7 @@ n=len(fNname)
 fedit=[None]*n
 
 i=0
-while i < 2:
+while i < 1:
     F=str(fNname[i])+".txt"
     print(F) #extra
     fOpen=open(F, 'r',errors='ignore')
