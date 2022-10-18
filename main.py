@@ -1,15 +1,15 @@
 # irrelevant_words function
 def iwords(text):
-    irrelevant_words = [".", "," , "\n", " the ", " a ", " and "," is ", " was ", " he ", " at ", " to ", " for ", " can ",
-                        " this ", " we ", " you ", " or ", " i ", " an ", " but ", " so ", " yes ", " no "]
+    irrelevant_words = {".", ",",  " \n ", " the ", " a ", " and ","\n",' how '," ",' be ',' as ',' could ',
+                        " is ", " was ", " he ", " at ", " to ", " for ", " can ", " this ", " we ", " you "
+                        ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' thought '}
     for iw in irrelevant_words:
         text = text.replace(iw, " ")
     print(500+i)
     print('-----------')
-    print(text)
 
 
-    return(fread)
+    return(text)
 # The number of repetitions of the word in the article
 def histogram(text):
     word_histogram = {
@@ -21,7 +21,10 @@ def histogram(text):
         else:
             word_histogram[word] = word_histogram[word] + 1
 
-    # word_histogram.pop("")
+    try:
+        word_histogram.pop("")
+    except KeyError:
+        pass
     print(600+i)            #extra
     print(word_histogram)
     return dict(list(sorted(word_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:6])
@@ -41,7 +44,7 @@ def histogram(text):
 
 # Articles files
 # files name
-fNname=["sport1",'sport2','sport3','sport4','sport5','sport5','sport7']
+fNname=["story1","sport1",'sport2','sport3','sport4','sport5','sport5','sport7']
 n=len(fNname)
 fedit=[None]*n
 
@@ -52,9 +55,11 @@ while i < 1:
     fOpen=open(F, 'r',errors='ignore')
     print(fOpen.readable()) #extra
     fread=fOpen.read()
+    fread=fread.lower()
     print(fread) #extra
     fedit[i]=iwords(fread)
     word_list = fedit[i].split(" ") #Split the paragraph into words
+    print('*****')
     print(word_list) #extra
     whist=histogram(word_list)  # wlist fun.
     print(whist)
