@@ -1,14 +1,16 @@
-# irrelevant_words function
+import os
 def words_histogram(text):
+    # irrelevant_words function
+    # remove irrelevant words, the, a, is, was,...
     irrelevant_words = {".", ",",  " \n ", " the ", " a ", " and ","\n",' how '," ",' be ',' as ',' could ',' are ',' its ',
                          " is ", " was ", " he ", " at ", " to ", " for ", " can ", " this ", " we ", " you ",' it ','many'
                         ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' thought ',' that ',' him '}
     for iw in irrelevant_words:
         text = text.replace(iw, " ")
-
     word_list = text.split(" ")  # Split the paragraph into words
     word_histogram = {
-    }
+       }
+    # The number of repetitions of the word in the article
     for word in word_list:
         if word not in word_histogram.keys():
             word_histogram[word] = 1
@@ -20,9 +22,6 @@ def words_histogram(text):
         pass
 
     return dict(list(sorted(word_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:6])
-
-    #return(text)
-# The number of repetitions of the word in the article
 
 # key words of the articles
 def key_words(text):
@@ -58,43 +57,41 @@ def relevont_articles(text_list,text_set,title):
 
 
 # Articles files
+path= os.getcwd()       # current directory path
+files=os.listdir(path)  #list of file names
+for file in files:
+    if '.txt'in file:
+        print(file)
+
 # files name
-fNname=["story1","sport1",'sport2','sport3','sport4','sport5','sport5','sport7']
-n=len(fNname)
+fName=["sport1",'sport2','sport3','sport4','sport5','sport5','sport7']
+n=len(fName)
+#
 fedit=[None]*n
 keySet=set()
 keyList=[None]*n
 
 i=0
 while i < n:
-    F=str(fNname[i])+".txt"
+    F=str(fName[i])+".txt"
     fOpen=open(F, 'r',errors='ignore')
     #print(fOpen.readable())
     fread=(fOpen.read()).lower()
-    #fread=fread.lower()
-    fedit[i]=iwords(fread)          #iwords fun.
-    #word_list = fedit[i].split(" ") #Split the paragraph into words
-    whist=histogram(word_list)      #histogram fun.
-    kwords=key_words(whist).copy()
+    word_hist=words_histogram(fread)
+    kwords=key_words(word_hist).copy()
     keyList[i]=kwords
     i=i+1
 
-print(fedit)   #extra
 print(keyList) #extra
 
 enter = 1
 while enter:
     article=str(input('Enter your Article: ')).lower()
     print('\n')
-    aedit=iwords(article)
-    word_list = aedit.split(" ")
-    #print(word_list)#extra
-    ahist = histogram(word_list)
-    #print(ahist)#extra
-    akeys=key_words(ahist).copy()
+    word_hist=words_histogram(article)
+    akeys=key_words(word_hist).copy()
     print(akeys) #extra
-    arelevent=relevont_articles(keyList,akeys,fNname)
-    #print(arelevent)  #extra
+    arelevent=relevont_articles(keyList,akeys,fName)
     user_input = input('Do you want enter another Article (yes/no): ')
     if user_input.lower() == 'yes' :
             enter = 1
