@@ -6,7 +6,7 @@ def iwords(text):
                         ' its '}
     for iw in irrelevant_words:
         text = text.replace(iw, " ")
-    #print('-----------1')
+
 
     return(text)
 
@@ -14,7 +14,11 @@ def iwords(text):
 def histogram(text):
     word_histogram = {
 
-    }
+      }
+
+    #print('word_list')
+    #print(text)
+
     for word in word_list:
         if word not in word_histogram.keys():
             word_histogram[word] = 1
@@ -25,8 +29,9 @@ def histogram(text):
         word_histogram.pop("")
     except KeyError:
         pass
-    #print('---------2')       #extra
-    #print(word_histogram)
+    #if enter:
+        #print('---------2')       #extra
+        #print(word_histogram)     #extra
     return dict(list(sorted(word_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:6])
 
 # key words of the articles
@@ -35,25 +40,33 @@ def key_words(text):
     for kw in text:
         keySet.add(kw)
 
-    print(keySet)  # dict
-    print('********5')
+    print(keySet)  # dict#extra
+    print('********5')#extra
     return(keySet)
 
-#Find most relevant” articles Two texts are relevant
+#Find most relevant” articles Two texts are relevant if the 6 mostly
+#used words in each overlap at least for 3 words
 def relevont_articles(text_list,text_set,title):
       relevont_histogram = {
-
-        }
+            }
+      r_articles=[ ]
       j=0
       for kl in text_list:
           relevont_histogram[title[j]]=0
           for ks in kl:
               if ks in text_set:
                  relevont_histogram[title[j]]=relevont_histogram[title[j]]+1
-
           j=j+1
-
-      return dict(list(sorted(relevont_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:3])
+      RA=dict(list(sorted(relevont_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:3])
+      k=0
+      for y in RA:
+          if RA[y]>=3:
+              print(y)
+              r_articles.append(y)
+              k=k+1
+          elif k == 0:
+              print('No related article found')
+      return r_articles
 
 
 # Articles files
@@ -67,7 +80,7 @@ keyList=[None]*n
 i=0
 while i < n:
     F=str(fNname[i])+".txt"
-    print(F) #extra 'title of articles
+    #print(F) #extra 'title of articles
     fOpen=open(F, 'r',errors='ignore')
     #print(fOpen.readable()) #extra
     fread=fOpen.read()
@@ -77,29 +90,26 @@ while i < n:
     word_list = fedit[i].split(" ") #Split the paragraph into words
     #print(word_list) #extra
     whist=histogram(word_list)  # wlist fun.
-    #print('********3')  # extra
-    #print(whist)        # dict
-    #print('********4')
     kwords=key_words(whist).copy()
     keyList[i]=kwords
-    #    print(keyList[i])  # dict
-    #    print('********6')
     i=i+1
 
-print(keyList)
-print(fedit) #extra
+print(keyList) #extra
+print(fedit)   #extra
 
 enter = 1
 while enter:
-    article=input('Enter your Article: ')
+    article=str(input('Enter your Article: ')).lower()
     print('\n')
-    article=str(article).lower()
+    #article=str(article).lower()
     aedit=iwords(article)
-    aedit_list=aedit.split(" ")
-    ahist = histogram(aedit_list)
+    #print(aedit)#extra
+    word_list = aedit.split(" ")
+    #print(word_list)#extra
+    ahist = histogram(word_list)
+    #print(ahist)#extra
     akeys=key_words(ahist).copy()
-    #Find most relevant” articles Two texts are relevant if the 6 mostly
-    #used words in each overlap at least for 3 words
+    #print(akeys)#extra
     arelevent=relevont_articles(keyList,akeys,fNname)
-    print(arelevent)
+    print(arelevent)#extra
     enter=0
