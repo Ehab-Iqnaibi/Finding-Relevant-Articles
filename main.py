@@ -1,38 +1,28 @@
 # irrelevant_words function
-def iwords(text):
-    irrelevant_words = {".", ",",  " \n ", " the ", " a ", " and ","\n",' how '," ",' be ',' as ',' could ',' are ',
-                        " is ", " was ", " he ", " at ", " to ", " for ", " can ", " this ", " we ", " you ",' it ','many'
-                        ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' thought ',' that ',' him ',
-                        ' its '}
+def words_histogram(text):
+    irrelevant_words = {".", ",",  " \n ", " the ", " a ", " and ","\n",' how '," ",' be ',' as ',' could ',' are ',' its ',
+                         " is ", " was ", " he ", " at ", " to ", " for ", " can ", " this ", " we ", " you ",' it ','many'
+                        ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' thought ',' that ',' him '}
     for iw in irrelevant_words:
         text = text.replace(iw, " ")
 
-
-    return(text)
-
-# The number of repetitions of the word in the article
-def histogram(text):
+    word_list = text.split(" ")  # Split the paragraph into words
     word_histogram = {
-
-      }
-
-    #print('word_list')
-    #print(text)
-
+    }
     for word in word_list:
         if word not in word_histogram.keys():
             word_histogram[word] = 1
         else:
             word_histogram[word] = word_histogram[word] + 1
-
     try:
         word_histogram.pop("")
     except KeyError:
         pass
-    #if enter:
-        #print('---------2')       #extra
-        #print(word_histogram)     #extra
+
     return dict(list(sorted(word_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:6])
+
+    #return(text)
+# The number of repetitions of the word in the article
 
 # key words of the articles
 def key_words(text):
@@ -40,8 +30,6 @@ def key_words(text):
     for kw in text:
         keySet.add(kw)
 
-    print(keySet)  # dict#extra
-    print('********5')#extra
     return(keySet)
 
 #Find most relevant” articles Two texts are relevant if the 6 mostly
@@ -59,13 +47,13 @@ def relevont_articles(text_list,text_set,title):
           j=j+1
       RA=dict(list(sorted(relevont_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:3])
       k=0
-      for y in RA:
+      for y in RA:     #at least for 3 words
           if RA[y]>=3:
               print(y)
               r_articles.append(y)
               k=k+1
-          elif k == 0:
-              print('No related article found')
+      if k == 0:
+        print('No related article found')
       return r_articles
 
 
@@ -80,36 +68,37 @@ keyList=[None]*n
 i=0
 while i < n:
     F=str(fNname[i])+".txt"
-    #print(F) #extra 'title of articles
     fOpen=open(F, 'r',errors='ignore')
-    #print(fOpen.readable()) #extra
-    fread=fOpen.read()
-    fread=fread.lower()
-    #print(fread) #extra
-    fedit[i]=iwords(fread)
-    word_list = fedit[i].split(" ") #Split the paragraph into words
-    #print(word_list) #extra
-    whist=histogram(word_list)  # wlist fun.
+    #print(fOpen.readable())
+    fread=(fOpen.read()).lower()
+    #fread=fread.lower()
+    fedit[i]=iwords(fread)          #iwords fun.
+    #word_list = fedit[i].split(" ") #Split the paragraph into words
+    whist=histogram(word_list)      #histogram fun.
     kwords=key_words(whist).copy()
     keyList[i]=kwords
     i=i+1
 
-print(keyList) #extra
 print(fedit)   #extra
+print(keyList) #extra
 
 enter = 1
 while enter:
     article=str(input('Enter your Article: ')).lower()
     print('\n')
-    #article=str(article).lower()
     aedit=iwords(article)
-    #print(aedit)#extra
     word_list = aedit.split(" ")
     #print(word_list)#extra
     ahist = histogram(word_list)
     #print(ahist)#extra
     akeys=key_words(ahist).copy()
-    #print(akeys)#extra
+    print(akeys) #extra
     arelevent=relevont_articles(keyList,akeys,fNname)
-    print(arelevent)#extra
-    enter=0
+    #print(arelevent)  #extra
+    user_input = input('Do you want enter another Article (yes/no): ')
+    if user_input.lower() == 'yes' :
+            enter = 1
+    elif user_input.lower() == 'no' :
+            enter = 0
+
+
