@@ -1,12 +1,12 @@
-import os
 def words_histogram(text):
     # irrelevant_words function
     # remove irrelevant words, the, a, is, was,...
     irrelevant_words = {".", ",",  " \n ", " the ", " a ", " and ","\n",' how '," ",' be ',' as ',' could ',' are ',' its ',
                          " is ", " was ", " he ", " at ", " to ", " for ", " can ", " this ", " we ", " you ",' it '
-                        ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' that ',' him '}
+                        ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' that ',' him ','"','--'}
     for iw in irrelevant_words:
         text = text.replace(iw, " ")
+    # words_histogram
     word_list = text.split(" ")  # Split the paragraph into words
     word_histogram = {
        }
@@ -33,7 +33,7 @@ def key_words(text):
 
 #Find most relevant” articles Two texts are relevant if the 6 mostly
 #used words in each overlap at least for 3 words
-def relevont_articles(text_list,text_set,title):
+def relevont_articles(text_list,text_set,title,article_no):
       relevont_histogram = {
             }
       r_articles=[ ]
@@ -45,32 +45,37 @@ def relevont_articles(text_list,text_set,title):
                  relevont_histogram[title[j]]=relevont_histogram[title[j]]+1
           j=j+1
       RA=dict(list(sorted(relevont_histogram.items(), key=lambda kv: kv[1], reverse=True))[0:3])
-      k=0
+      k,o,l=0,0,1
       for y in RA:     #at least for 3 words
-          if RA[y]>=3:
-              print(y)
+          if RA[y]>=3 and title[article_no]!= y :
+              if o<1:
+                    print('Related articles: ')
+                    o=o+1
+              print(str(l+k)+'. '+y)
               r_articles.append(y)
               k=k+1
       if k == 0:
-        print('No related article found')
+          print('No related article found')
       return r_articles
 
-
-# Articles files
-path= os.getcwd()       # current directory path
-print(path)
-files=os.listdir(path)
-#list of file names
-for file in files:
-    if '.txt'in file:
-        print(file)
-
-''' '# files name
-fName=["sport1",'sport2','sport3','sport4','sport5','sport5','sport7']
+# Titles
+fName=["sport1",'Russian1','sport2','sport3','Curtain lifts on another historic Supreme','sport4','sport5','Biden2','sport6','sport7','Biden1',
+       'Ukraine1','National Archives alerted lawyers','Russia2','Biden3','Human rights advocates from Russia','Saudi Arabia','Saudi Arabia1',
+       'production','Lionel Messi','Ronaldo','John Mikel Obi','Adam Walker','Elon Musk','Elon Musk1','Elon Musk2','Elizabeth Holmes','Elizabeth Holmes1',
+       'Theranos scandal','Covid','Covid infections']
 n=len(fName)
-#fedit=[None]*n
 keySet=set()
 keyList=[None]*n
+f,k=0,1
+while f < n:
+     fn = f + 1
+     if k <4:
+        print(str(fn)+'.'+fName[f],end=',     ')
+        k=k+1
+     else:
+        print(str(fn)+'.'+fName[f])
+        k=1
+     f=f+1
 
 i=0
 while i < n:
@@ -83,20 +88,18 @@ while i < n:
     keyList[i]=kwords
     i=i+1
 
-print(keyList) #extra
-
 enter = 1
 while enter:
-    article=str(input('Enter your Article: ')).lower()
     print('\n')
-    word_hist=words_histogram(article)
-    akeys=key_words(word_hist).copy()
-    #print(akeys) #extra
-    arelevent=relevont_articles(keyList,akeys,fName)
-    user_input = input('Do you want enter another Article (yes/no): ')
+    article_number =int (input('Enter Article number: '))
+    article_number=article_number-1
+    print('The title of the article: '+fName[article_number])
+    akeys=keyList[article_number]
+    arelevent=relevont_articles(keyList,akeys,fName,article_number)
+    user_input = input('Do you want to choose another Article (yes/no): ')
     if user_input.lower() == 'yes' :
             enter = 1
     elif user_input.lower() == 'no' :
             enter = 0
 
-'''
+
