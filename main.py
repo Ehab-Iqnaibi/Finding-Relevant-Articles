@@ -3,8 +3,8 @@ def words_histogram(text):
     # irrelevant_words function
     # remove irrelevant words, the, a, is, was,...
     irrelevant_words = {".", ",",  " \n ", " the ", " a ", " and ","\n",' how '," ",' be ',' as ',' could ',' are ',' its ',
-                         " is ", " was ", " he ", " at ", " to ", " for ", " can ", " this ", " we ", " you ",' it ','many'
-                        ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' thought ',' that ',' him '}
+                         " is ", " was ", " he ", " at ", " to ", " for ", " can ", " this ", " we ", " you ",' it '
+                        ," or ", " i ", " an "," but ", " so ", " yes ", " no ", " of " , '!',' that ',' him '}
     for iw in irrelevant_words:
         text = text.replace(iw, " ")
     word_list = text.split(" ")  # Split the paragraph into words
@@ -58,16 +58,17 @@ def relevont_articles(text_list,text_set,title):
 
 # Articles files
 path= os.getcwd()       # current directory path
-files=os.listdir(path)  #list of file names
+print(path)
+files=os.listdir(path)
+#list of file names
 for file in files:
     if '.txt'in file:
         print(file)
 
-# files name
+''' '# files name
 fName=["sport1",'sport2','sport3','sport4','sport5','sport5','sport7']
 n=len(fName)
-#
-fedit=[None]*n
+#fedit=[None]*n
 keySet=set()
 keyList=[None]*n
 
@@ -90,7 +91,7 @@ while enter:
     print('\n')
     word_hist=words_histogram(article)
     akeys=key_words(word_hist).copy()
-    print(akeys) #extra
+    #print(akeys) #extra
     arelevent=relevont_articles(keyList,akeys,fName)
     user_input = input('Do you want enter another Article (yes/no): ')
     if user_input.lower() == 'yes' :
@@ -98,4 +99,4 @@ while enter:
     elif user_input.lower() == 'no' :
             enter = 0
 
-
+'''
